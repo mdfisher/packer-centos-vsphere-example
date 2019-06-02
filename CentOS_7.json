@@ -1,8 +1,8 @@
 {
   "variables": {
     "git_commit": "",
-    "url": "http://centos.mirroring.pulsant.co.uk/7/isos/x86_64/CentOS-7-x86_64-NetInstall-1804.iso",
-    "checksum": "937bf0a7b0932817f84f7230f15ed88911bbbd85c0c958680792b7f8d8f9c1a9"
+    "url": "C:\\Users\\mdfisher\\Downloads\\CentOS-7-x86_64-Minimal-1810.iso",
+    "checksum": "38d5d51d9d100fd73df031ffd6bd8b1297ce24660dc8c13a3b8b4534a4bd291c"
   },
   "provisioners": [
     {
@@ -29,40 +29,21 @@
       ]
     }
   ],
-  "post-processors": [
-    [ {
-      "type": "vsphere",
-      "cluster": "Cluster",
-      "datacenter": "{{user `vcenter_datacenter`}}",
-      "datastore": "ds_data",
-      "disk_mode": "thin",
-      "host": "{{user `vcenter_host`}}",
-      "password": "{{user `vcenter_password`}}",
-      "username": "{{user `vcenter_username`}}",
-      "vm_name": "Centos-7",
-      "vm_folder": "/",
-      "insecure": true,
-      "overwrite": true
-    },
-    {
-      "type": "vsphere-template",
-      "password": "{{user `vcenter_password`}}",
-      "username": "{{user `vcenter_username`}}",
-      "host": "{{user `vcenter_host`}}",
-      "datacenter": "{{user `vcenter_datacenter`}}",
-      "insecure": true
-    } ]
-  ],
   "builders": [
     {
       "type": "vmware-iso",
-      "format": "ovf",
+      "display_name": "centos_1810_small",
+      "vm_name": "centos_1810_small",
+      "vmdk_name": "centos_1810_small",
       "iso_url": "{{user `url`}}",
       "iso_checksum": "{{user `checksum`}}",
       "iso_checksum_type": "sha256",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "20m",
+      "cpus": 1,
+      "cores": 2,
+      "memory": 1024,
       "disk_size": "20480",
       "disk_type_id": "0",
       "guest_os_type": "centos7-64",
@@ -74,16 +55,14 @@
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ],
       "vmx_data": {
-        "memsize": "1024",
-        "numvcpus": "1",
         "ethernet0.present": true,
         "ethernet0.startConnected": true,
         "ethernet0.connectionType": "custom",
-        "ethernet0.vnet": "vmnet8",
+        "ethernet0.vnet": "VMnet8",
         "ethernet1.present": true,
         "ethernet1.startConnected": true,
         "ethernet1.connectionType": "custom",
-        "ethernet1.vnet": "vmnet1"
+        "ethernet1.vnet": "VMnet1"
       },
       "vmx_data_post": {
         "floppy0.present": false
