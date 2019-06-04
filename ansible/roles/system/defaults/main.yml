@@ -66,6 +66,7 @@ removal_of_packages:
 
 
 installing_of_packages:
+  - irqbalance
   - psacct
 
 disable_of_services:

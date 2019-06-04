@@ -1,0 +1,112 @@
+{
+  "variables": {
+    "git_commit": "",
+    "url": "C:\\Users\\mdfisher\\Downloads\\CentOS-7-x86_64-Minimal-1810.iso",
+    "checksum": "38d5d51d9d100fd73df031ffd6bd8b1297ce24660dc8c13a3b8b4534a4bd291c"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "sudo {{.Vars}} sh {{.Path}} {{user `git_commit`}}",
+      "scripts": [
+        "scripts/ansible.sh"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "./ansible/local.yml",
+      "role_paths": [
+        "./ansible/roles/system"
+      ],
+      "inventory_file": "ansible/inventory"
+    },
+    {
+      "type": "shell",
+      "execute_command": "sudo {{.Vars}} sh {{.Path}}",
+      "scripts": [
+        "scripts/cleanup.sh",
+        "scripts/zerodisk.sh"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "vmware-iso",
+      "display_name": "centos_1810_lg",
+      "name": "centos_1810_lg",
+      "vm_name": "centos_1810_lg",
+      "vmdk_name": "centos_1810_lg",
+      "iso_url": "{{user `url`}}",
+      "iso_checksum": "{{user `checksum`}}",
+      "iso_checksum_type": "sha256",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "20m",
+      "cpus": 2,
+      "cores": 4,
+      "memory": 8048,
+      "disk_size": "40480",
+      "disk_type_id": "0",
+      "guest_os_type": "centos7-64",
+      "headless": false,
+      "shutdown_command": "sudo /sbin/halt -p",
+      "http_directory": "http",
+      "vmx_remove_ethernet_interfaces": true,
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "vmx_data": {
+        "ethernet0.present": true,
+        "ethernet0.startConnected": true,
+        "ethernet0.connectionType": "custom",
+        "ethernet0.vnet": "VMnet8",
+        "ethernet1.present": true,
+        "ethernet1.startConnected": true,
+        "ethernet1.connectionType": "custom",
+        "ethernet1.vnet": "VMnet1"
+      },
+      "vmx_data_post": {
+        "floppy0.present": false
+      }
+    },
+    {
+      "type": "vmware-iso",
+      "display_name": "centos_1810_med",
+      "name": "centos_1810_med",
+      "vm_name": "centos_1810_med",
+      "vmdk_name": "centos_1810_med",
+      "iso_url": "{{user `url`}}",
+      "iso_checksum": "{{user `checksum`}}",
+      "iso_checksum_type": "sha256",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "20m",
+      "cpus": 2,
+      "cores": 2,
+      "memory": 2048,
+      "disk_size": "40480",
+      "disk_type_id": "0",
+      "guest_os_type": "centos7-64",
+      "headless": false,
+      "shutdown_command": "sudo /sbin/halt -p",
+      "http_directory": "http",
+      "vmx_remove_ethernet_interfaces": true,
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "vmx_data": {
+        "ethernet0.present": true,
+        "ethernet0.startConnected": true,
+        "ethernet0.connectionType": "custom",
+        "ethernet0.vnet": "VMnet8",
+        "ethernet1.present": true,
+        "ethernet1.startConnected": true,
+        "ethernet1.connectionType": "custom",
+        "ethernet1.vnet": "VMnet1"
+      },
+      "vmx_data_post": {
+        "floppy0.present": false
+      }
+    }
+  ]
+}

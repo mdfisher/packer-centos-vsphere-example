@@ -33,6 +33,7 @@
     {
       "type": "vmware-iso",
       "display_name": "centos_1810_small",
+      "name": "centos_1810_small",
       "vm_name": "centos_1810_small",
       "vmdk_name": "centos_1810_small",
       "iso_url": "{{user `url`}}",
