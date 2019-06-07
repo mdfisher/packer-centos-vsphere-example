@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ref https://github.com/box-cutter/centos-vm/
 
-HTTP_PROXY=http://michael.fisher:<passwd>@proxy.pxm-lax.intra:3128
+export HTTPS_PROXY=http://michael.fisher:<passwd>@proxy.pxm-lax.intra:3128
 
 for dep in $(comm -3 /tmp/freeze-begin /tmp/freeze-end | awk -F '=' '{print $1}');do
     echo "Uninstalling $dep"
