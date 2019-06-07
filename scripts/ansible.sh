@@ -1,5 +1,5 @@
 #!/bin/bash
-HTTP_PROXY=http://michael.fisher:<passwd>@proxy.pxm-lax.intra:3128
+export HTTPS_PROXY=http://michael.fisher:<passwd>@proxy.pxm-lax.intra:3128
 
 # Configuring werner-release
 echo "$(date +"%Y-%m-%d %H:%M:%S") - $1" > /etc/werner-release
