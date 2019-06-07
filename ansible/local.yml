@@ -12,6 +12,7 @@
         - yum-utils
         - device-mapper-persistent-data
         - lvm2
+      environment: "{{proxy_env}}"
 
     - name: "Installing repo"
       shell: "{{ item }}"
@@ -20,6 +21,7 @@
       with_items:
         - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
         - yum-config-manager --enable docker-ce-edge
+      environment: "{{proxy_env}}"
 
     - name: "Installing docker"
       yum:
@@ -34,3 +36,6 @@
 
   roles:
     - system
+
+  environment:
+    http_proxy: http://michael.fisher:<passwd>@proxy.pxm-lax.intra:3128
